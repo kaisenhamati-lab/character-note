@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f3ef">
+  <meta name="description" content="オリジナルキャラクターのプロフィール、性格、口調、セリフ例をまとめるアプリ">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <title>キャラノート</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="キャラノート ホーム">
+        <span class="brand-mark">✦</span><span>キャラノート</span>
+      </a>
+      <div class="top-actions">
+        <button class="icon-button" id="backupBtn" type="button" title="バックアップを保存" aria-label="バックアップを保存">↥</button>
+        <button class="small-button top-import" id="importBtn" type="button">復元</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="listView" class="view">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">MY ORIGINAL CHARACTERS</p>
+            <h1>キャラクター</h1>
+            <p class="subheading">大切な設定を、ひとつずつ。</p>
+          </div>
+          <button class="primary-button add-button" id="addBtn" type="button">＋ 新規作成</button>
+        </div>
+
+        <div class="search-wrap">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="名前や設定で検索" autocomplete="off">
+        </div>
+
+        <div class="list-meta">
+          <span id="characterCount">0人</span><span>CHARACTERS</span>
+        </div>
+        <div id="characterList" class="character-list"></div>
+        <div id="emptyState" class="empty-state">
+          <div class="empty-symbol">✧</div>
+          <h2>キャラクターはまだいません</h2>
+          <p>最初のキャラクターを登録してみよう。</p>
+          <button class="primary-button" id="emptyAddBtn" type="button">キャラクターを作成</button>
+        </div>
+      </section>
+
+      <section id="detailView" class="view hidden">
+        <div class="editor-heading">
+          <button class="back-button" id="detailTopBackBtn" type="button">← 一覧へ</button>
+          <span class="eyebrow">CHARACTER</span>
+        </div>
+
+        <div class="detail-hero">
+          <div class="avatar detail-avatar" id="detailAvatar" aria-hidden="true"></div>
+          <h1 id="detailName"></h1>
+        </div>
+
+        <div id="detailBody" class="detail-body"></div>
+
+        <div class="detail-actions">
+          <button class="primary-button" id="detailEditBtn" type="button">編集</button>
+          <button class="secondary-button danger-button" id="detailDeleteBtn" type="button">削除</button>
+          <button class="secondary-button" id="detailListBtn" type="button">一覧に戻る</button>
+        </div>
+      </section>
+
+      <section id="editorView" class="view hidden">
+        <div class="editor-heading">
+          <button class="back-button" id="backBtn" type="button">← 一覧へ</button>
+          <span class="eyebrow" id="editorEyebrow">NEW CHARACTER</span>
+        </div>
+        <h1 id="editorTitle">新しいキャラクター</h1>
+        <p class="subheading">必要なところから、自由に設定しよう。</p>
+
+        <form id="characterForm">
+          <input type="hidden" id="characterId">
+
+          <div class="form-card">
+            <div class="section-label"><span>01</span> 基本プロフィール</div>
+            <div class="image-field">
+              <div class="avatar image-preview" id="imagePreview" aria-hidden="true">？</div>
+              <div class="image-field-body">
+                <span class="image-field-label">アイコン画像</span>
+                <div class="image-buttons">
+                  <button class="small-button" id="imagePickBtn" type="button">画像を選ぶ</button>
+                  <button class="small-button hidden" id="imageClearBtn" type="button">削除</button>
+                </div>
+              </div>
+              <input type="file" id="imageFile" accept="image/*" hidden>
+            </div>
+            <label class="field">
+              <span>名前 <b>*</b></span>
+              <input id="nameInput" maxlength="80" required placeholder="キャラクターの名前">
+            </label>
+            <div class="field-grid">
+              <label class="field">
+                <span>年齢</span>
+                <input id="ageInput" maxlength="100" placeholder="例：25歳">
+              </label>
+              <label class="field">
+                <span>身長</span>
+                <input id="heightInput" maxlength="100" placeholder="例：178cm">
+              </label>
+            </div>
+            <div class="field-grid">
+              <label class="field">
+                <span>髪の色</span>
+                <input id="hairColorInput" maxlength="100" placeholder="例：黒髪">
+              </label>
+              <label class="field">
+                <span>目の色</span>
+                <input id="eyeColorInput" maxlength="100" placeholder="例：ピンク色">
+              </label>
+            </div>
+          </div>
+
+          <div class="form-card">
+            <div class="section-label"><span>02</span> 性格・人物像</div>
+            <label class="field">
+              <span>性格</span>
+              <textarea id="personalityInput" rows="4" maxlength="5000" placeholder="性格や行動の傾向など"></textarea>
+            </label>
+            <label class="field">
+              <span>好きなもの・苦手なもの</span>
+              <textarea id="likesInput" rows="3" maxlength="3000" placeholder="好きなもの、苦手なもの、趣味など"></textarea>
+            </label>
+            <label class="field">
+              <span>得意なこと・苦手なこと</span>
+              <textarea id="skillsInput" rows="3" maxlength="3000" placeholder="得意分野、不得意なことなど"></textarea>
+            </label>
+          </div>
+
+          <div class="form-card">
+            <div class="section-label"><span>03</span> 話し方</div>
+            <label class="field">
+              <span>一人称・二人称</span>
+              <input id="pronounsInput" maxlength="500" placeholder="例：一人称「俺」／二人称「お前」">
+            </label>
+            <label class="field">
+              <span>口調・話し方</span>
+              <textarea id="speechInput" rows="4" maxlength="3000" placeholder="語尾、話すテンポ、口癖など"></textarea>
+            </label>
+            <label class="field">
+              <span>セリフ例</span>
+              <textarea id="quotesInput" rows="5" maxlength="5000" placeholder="「……別に、いいけど」&#10;「お前、また無茶しただろ」"></textarea>
+            </label>
+          </div>
+
+          <div class="form-card">
+            <div class="section-label"><span>04</span> その他の設定</div>
+            <label class="field">
+              <span>人間関係</span>
+              <textarea id="relationshipsInput" rows="4" maxlength="5000" placeholder="他のキャラクターとの関係など"></textarea>
+            </label>
+            <label class="field">
+              <span>詳細</span>
+              <textarea id="detailsInput" rows="5" maxlength="10000" placeholder="上の項目に当てはまらない設定を自由に"></textarea>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button class="secondary-button" id="cancelBtn" type="button">キャンセル</button>
+            <button class="primary-button save-button" type="submit">保存する</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>✦ キャラノート</span><span>この端末に保存中</span>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <input type="file" id="importFile" accept="application/json,.json" hidden>
+  <script src="./script.js"></script>
+</body>
+</html>
